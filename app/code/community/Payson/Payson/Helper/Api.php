@@ -16,11 +16,11 @@ class Payson_Payson_Helper_Api {
     const API_CALL_PAYMENT_UPDATE = '%s://%sapi.payson.%s/%s/%sUpdate/';
     const PAY_FORWARD_URL = '%s://%s%s.payson.%s/paySecure/';
     const APPLICATION_ID = 'Magento';
-    const MODULE_NAME = 'Payson_Magento_AllinOne';
-    const MODULE_VERSION = '1.0';
+    const MODULE_NAME = 'Payson_AllinOne';
+    const MODULE_VERSION = '1.0.1';
     const DEBUG_MODE_MAIL = 'testagent-1@payson.se';
-    const DEBUG_MODE_AGENT_ID = '1';
-    const DEBUG_MODE_MD5 = 'fddb19ac-7470-42b6-a91d-072cb1495f0a';
+    const DEBUG_MODE_AGENT_ID = '4';
+    const DEBUG_MODE_MD5 = '2acab30d-fe50-426f-90d7-8c60a7eb31d4';
     const STATUS_CREATED = 'CREATED';
     const STATUS_PENDING = 'PENDING';
     const STATUS_PROCESSING = 'PROCESSING';
@@ -28,6 +28,9 @@ class Payson_Payson_Helper_Api {
     const STATUS_CREDITED = 'CREDITED';
     const STATUS_INCOMPLETE = 'INCOMPLETE';
     const STATUS_ERROR = 'ERROR';
+    const STATUS_DENIED = 'DENIED';
+    const STATUS_ABORTED ='ABORTED';
+    const STATUS_CANCELED = 'CANCELED';
     const STATUS_EXPIRED = 'EXPIRED';
     const STATUS_REVERSALERROR = 'REVERSALERROR';
     const PAYMENT_METHOD_BANK = 'BANK';
@@ -929,13 +932,10 @@ LIMIT
                                         $this->_helper->__('Payson pinged the order with status %s'), $ipn_response->status));
                     }
 
-                    break;
-                }
-
             case self::STATUS_ERROR:
+            case self::STATUS_DENIED:
 
                 $order->cancel();
-
 
                 $order->addStatusHistoryComment($this->_helper->__('The order was denied by Payson.'));
 
@@ -943,9 +943,12 @@ LIMIT
 
             case self::STATUS_INCOMPLETE:
             case self::STATUS_EXPIRED:
+            case self::STATUS_CANCELED:
+            case self::STATUS_ABORTED:
                 $order->cancel();
 
-                $order->addStatusHistoryComment($this->_helper->__('The order was not completed within allocated time'));
+                $order->addStatusHistoryComment($this->_helper->__('The order was canceled or not completed within allocated time'));
+                break;
             case self::STATUS_REVERSALERROR:
             default: {
                     $order->cancel();
