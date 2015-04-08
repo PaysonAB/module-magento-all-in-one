@@ -17,7 +17,7 @@ class Payson_Payson_Helper_Api {
     const PAY_FORWARD_URL = '%s://%s%s.payson.%s/paySecure/';
     const APPLICATION_ID = 'Magento';
     const MODULE_NAME = 'Payson_AllinOne';
-    const MODULE_VERSION = '1.0.1';
+    const MODULE_VERSION = '1.0.2';
     const DEBUG_MODE_MAIL = 'testagent-1@payson.se';
     const DEBUG_MODE_AGENT_ID = '4';
     const DEBUG_MODE_MD5 = '2acab30d-fe50-426f-90d7-8c60a7eb31d4';
@@ -81,7 +81,6 @@ class Payson_Payson_Helper_Api {
     public function __construct() {
         $this->_config = Mage::getModel('payson/config');
         $this->_helper = Mage::helper('payson');
-        $this->_invoice = Mage::getModel('payson/method/invoice');
     }
 
     private function getHttpClient($url) {
@@ -932,8 +931,11 @@ LIMIT
                                         $this->_helper->__('Payson pinged the order with status %s'), $ipn_response->status));
                     }
 
+                    break;
+                }
+
             case self::STATUS_ERROR:
-            case self::STATUS_DENIED:
+            case self::STATUS_DENIED:    
 
                 $order->cancel();
 
