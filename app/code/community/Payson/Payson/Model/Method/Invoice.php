@@ -17,6 +17,7 @@ class Payson_Payson_Model_Method_Invoice extends Payson_Payson_Model_Method_Abst
     protected $_canRefund = true;
     protected $_canVoid = true;
     protected $_canUseCheckout = false;
+    protected $_canCancelInvoice = true;
 
     /*
      * Public methods
@@ -51,4 +52,9 @@ class Payson_Payson_Model_Method_Invoice extends Payson_Payson_Model_Method_Abst
 
         return $this;
     }   
+    public function authorize(Varien_Object $payment, $amount) {
+        $payment->setTransactionId('auth')->setIsTransactionClosed(0);
+        return $this;
+    }
+
 }

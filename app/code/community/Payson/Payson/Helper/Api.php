@@ -17,7 +17,7 @@ class Payson_Payson_Helper_Api {
     const PAY_FORWARD_URL = '%s://%s%s.payson.%s/paySecure/';
     const APPLICATION_ID = 'Magento';
     const MODULE_NAME = 'Payson_AllinOne';
-    const MODULE_VERSION = '1.0.2';
+    const MODULE_VERSION = '1.8.3';
     const DEBUG_MODE_MAIL = 'testagent-1@payson.se';
     const DEBUG_MODE_AGENT_ID = '4';
     const DEBUG_MODE_MD5 = '2acab30d-fe50-426f-90d7-8c60a7eb31d4';
@@ -1012,8 +1012,10 @@ AND
 LIMIT
 	0,1', $order_id);
 
-        if ($payson_order === false) {
-            Mage::throwException('Invalid order id (' . $order_id . ')');
+        try {
+            $payson_order !== false;
+        } catch (Exception $e) {
+            Mage::throwException('Invalid order id (' . $order_id . ')' . $e->getMessage());
         }
 
         $db->setFetchMode($old_fetch_mode);
@@ -1040,10 +1042,21 @@ LIMIT
             'valid' => (int) $response->IsValid(),
             'response' => serialize($response->ToArray())
         ));
+        
+        $payson_validator = $db->fetchRow(
+            'SELECT ipn_status, token FROM `' . $order_table . '` WHERE order_id = ? LIMIT 0,1', $order_id);                
+        if ((!$response->IsValid()) && ($payson_validator->ipn_status == NULL && $payson_validator->token == NULL)) {
+            $sales_flat_order = 'sales_flat_order';
+            if($order_id !== null){
+               $new_order_id = Mage::getModel('sales/order')->loadByIncrementId($order_id)->getEntityId();
+                $db->update($sales_flat_order, array('state'=>'canceled', 'status'=>'canceled'), array('entity_id = ?' => $new_order_id));              
+            }
+        }
 
         if (!$response->IsValid()) {
-            throw new Mage_Core_Exception(sprintf($this->_helper->__(
-                            'Failed to retrieve payment details. Payson replied: %s'), $response->GetError()), $response->GetErrorId());
+            $redirectUrl= Mage::getUrl('checkout/cart');
+            Mage::getSingleton('checkout/session')->setRedirectUrl($redirectUrl);
+                       
         }
 
         return $this;

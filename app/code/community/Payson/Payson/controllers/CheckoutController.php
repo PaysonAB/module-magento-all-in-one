@@ -93,7 +93,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
             $this->cancelOrder($e->getMessage());
 
             if ($this->_config->restoreCartOnError()) {
-                $this->_config->restoreCart();
+                $this->restoreCart();
             }
 
             Mage::logException($e);
