@@ -150,7 +150,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
                         $this->_redirect('checkout/onepage/success');
                         break;
                     }
-                    if ($paymentDetailsResponse->type !== 'INVOICE' && $paymentDetailsResponse->status === 'PENDING') {
+                    if ($paymentDetailsResponse->status === 'PENDING') {
                         Mage::getSingleton('core/session')->addError(sprintf(Mage::helper('payson')->__('Something went wrong with the payment. Please, try a different payment method')));
                         $order['payson_invoice_fee']= 0;
                         $order['base_payson_invoice_fee']=0;
