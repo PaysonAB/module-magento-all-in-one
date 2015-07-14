@@ -107,6 +107,8 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
 
         $paymentDetailsResponse = Mage::helper('payson/api')->PaymentDetails(Mage::getSingleton('checkout/session')->getLastRealOrderId())->getResponse();
         $paymentStatus = $paymentDetailsResponse->status;
+        $InvoiceStatus = $paymentDetailsResponse->invoiceStatus;
+        isset($InvoiceStatus) ? $InvoiceStatus : 'NONE';
         $paymentDetails=$paymentDetailsResponse->receiverList->receiver->ToArray();
         $new_paymentDetails = array();
         foreach ($paymentDetails as $item) {
@@ -123,7 +125,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
             case 'PENDING':
             case 'PROCESSING':
             case 'CREDITED': {
-                
+
 
                     if ($paymentDetailsResponse->type !== 'INVOICE' && $paymentDetailsResponse->status === 'COMPLETED') {
                         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
@@ -145,15 +147,22 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
                     if ($paymentDetailsResponse->type !== 'INVOICE' && $paymentDetailsResponse->status === 'PROCESSING') {
                         $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
                         Mage::getSingleton('core/session')->addError(sprintf(Mage::helper('payson')->__('Your payment is being processed by Payson')));
-                        $order['payson_invoice_fee']= 0;
-                        $order['base_payson_invoice_fee']=0;
+                        $order['payson_invoice_fee'] = 0;
+                        $order['base_payson_invoice_fee'] = 0;
                         $this->_redirect('checkout/onepage/success');
                         break;
                     }
-                    if ($paymentDetailsResponse->status === 'PENDING') {
+                    if ($paymentDetailsResponse->type !== 'INVOICE' && $paymentDetailsResponse->status === 'PENDING') {
                         Mage::getSingleton('core/session')->addError(sprintf(Mage::helper('payson')->__('Something went wrong with the payment. Please, try a different payment method')));
-                        $order['payson_invoice_fee']= 0;
-                        $order['base_payson_invoice_fee']=0;
+                        $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
+                        $order['payson_invoice_fee'] = 0;
+                        $order['base_payson_invoice_fee'] = 0;
+                        $this->_redirect('checkout/onepage/failure');
+                        break;
+                    }
+                    if ($paymentDetailsResponse->type === 'INVOICE' && $InvoiceStatus === 'PENDING') {
+                        Mage::getSingleton('core/session')->addError(sprintf(Mage::helper('payson')->__('Your payment is being processed by Payson')));
+                        $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
                         $this->_redirect('checkout/onepage/failure');
                         break;
                     }
