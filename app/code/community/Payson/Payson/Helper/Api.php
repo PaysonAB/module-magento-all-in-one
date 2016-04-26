@@ -17,7 +17,7 @@ class Payson_Payson_Helper_Api {
     const PAY_FORWARD_URL = '%s://%s%s.payson.%s/paySecure/';
     const APPLICATION_ID = 'Magento';
     const MODULE_NAME = 'Payson_AllinOne';
-    const MODULE_VERSION = '1.8.3.2';
+    const MODULE_VERSION = '1.8.3.3';
     const DEBUG_MODE_MAIL = 'testagent-1@payson.se';
     const DEBUG_MODE_AGENT_ID = '4';
     const DEBUG_MODE_MD5 = '2acab30d-fe50-426f-90d7-8c60a7eb31d4';
@@ -184,20 +184,40 @@ class Payson_Payson_Helper_Api {
      * @param	int		$total
      * @return	array
      */
-    private function prepareOrderItemData($item, &$total) {
+   private function getProductOptions($id) {
+        $product = new Mage_Catalog_Model_Product();		
+	$product->load($id);        
+        $product->getTypeInstance(true)->setStoreFilter(Mage::app()->getStore(), $product);
+        return $product;
+        
+    }
+    private function prepareOrderItemData($item, &$total, $order) {
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')
                 ->load($item->getProductId());
 
         $attributesString = "";
+        $quoteItems = Mage::getModel('sales/quote_item')->getCollection();
+        $quoteItems->addFieldToFilter('quote_id', $order->quote_id);
+        $quoteItems->addFieldToFilter('product_type', 'bundle');
+
 
         if (($children = $item->getChildrenItems()) != null && !$product->isConfigurable()) {
             $args = array();
+            $product = $this->getProductOptions($item->getProductId());
+            
+            if ($item->getProductType() != 'bundle'||$product->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
             $this->prepareProductData($item->getName(), $item->getSku(), $item->getQtyOrdered(), 0, 0);
+            } 
             foreach ($children as $child) {
-                $this->prepareOrderItemData($child, $total);
+                $this->prepareOrderItemData($child, $total, $order);
             }
+            //checks if there are bundles items is present and if it is dynamic
+            if (($quoteItems->getSize() < 1)) {
             return;
+            } elseif ($product->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC && $item->getProductType() == 'bundle') {
+                return;
+        }
         }
 
         $productOptions = $item->getProductOptions();
@@ -214,7 +234,6 @@ class Payson_Payson_Helper_Api {
 
         $name = $item->getName() . ($attributesString != "" ? " - " . $attributesString : "");
         $sku = $item->getSku();
-
         $tax_mod = (float) $item->getTaxPercent();
         $tax_mod /= 100;
         $tax_mod = round($tax_mod, 5);
@@ -458,7 +477,7 @@ class Payson_Payson_Helper_Api {
         // Calculate price of each item in the order
         $total = 0;
         foreach ($order->getAllVisibleItems() as $item) {
-            $this->prepareOrderItemData($item, $total);
+            $this->prepareOrderItemData($item, $total, $order);
         }
 
         $productItems = $this->generateProductDataForPayson($args);
