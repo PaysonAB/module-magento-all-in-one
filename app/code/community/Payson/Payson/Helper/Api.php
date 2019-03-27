@@ -17,7 +17,7 @@ class Payson_Payson_Helper_Api {
     const PAY_FORWARD_URL = '%s://%s%s.payson.%s/paySecure/';
     const APPLICATION_ID = 'Magento';
     const MODULE_NAME = 'Payson_AllinOne';
-    const MODULE_VERSION = '1.8.3.4';
+    const MODULE_VERSION = '1.8.3.5';
     const DEBUG_MODE_MAIL = 'testagent-checkout2@payson.se';
     const DEBUG_MODE_AGENT_ID = '4';
     const DEBUG_MODE_MD5 = '2acab30d-fe50-426f-90d7-8c60a7eb31d4';
@@ -36,7 +36,6 @@ class Payson_Payson_Helper_Api {
     const PAYMENT_METHOD_BANK = 'BANK';
     const PAYMENT_METHOD_CREDITCARD = 'CREDITCARD';
     const PAYMENT_METHOD_INVOICE = 'INVOICE';
-    const PAYMENT_METHOD_SMS = 'SMS';
     const GUARANTEE_STATUS_WAITINGFORSEND = 'WAITINGFORSEND';
     const GUARANTEE_STATUS_WAITINGFORACCEPTANCE = 'WAITINGFORACCEPTANCE';
     const GUARANTEE_STATUS_WAITINGFORRETURN = 'WAITINGFORRETURN';
@@ -603,24 +602,16 @@ class Payson_Payson_Helper_Api {
         $constraints = array();
         $opts = array(
             -1 => array(''),
-            0 => array('sms'),
-            1 => array('bank'),
-            2 => array('card'),
-            3 => array('bank', 'sms'),
-            4 => array('card', 'sms'),
-            5 => array('card', 'bank'),
-            6 => array('card', 'bank', 'sms'),
-            7 => array(''),
-            8 => array('invoice'),
-            9 => array('invoice', 'sms'),
-            10 => array('invoice', 'bank'),
-            11 => array('invoice', 'card'),
-            12 => array('invoice', 'bank', 'sms'),
-            13 => array('invoice', 'card', 'sms'),
-            14 => array('invoice', 'card', 'bank'),
-            15 => array('invoice', 'card', 'bank', 'sms'),
+            0 => array('bank'),
+            1 => array('card'),
+            2 => array('card', 'bank'),
+            3 => array(''),
+            4 => array('invoice'),
+            5 => array('invoice', 'bank'),
+            6 => array('invoice', 'card'),
+            7 => array('invoice', 'card', 'bank'),
         );
-        $optsStrings = array('' => FundingConstraint::NONE, 'bank' => FundingConstraint::BANK, 'card' => FundingConstraint::CREDITCARD, 'invoice' => FundingConstraint::INVOICE, 'sms' => FundingConstraint::SMS);
+        $optsStrings = array('' => FundingConstraint::NONE, 'bank' => FundingConstraint::BANK, 'card' => FundingConstraint::CREDITCARD, 'invoice' => FundingConstraint::INVOICE);
         if ($opts[$paymentMethod]) {
             foreach ($opts[$paymentMethod] as $methodStringName) {
                 $constraints[] = $optsStrings[$methodStringName];

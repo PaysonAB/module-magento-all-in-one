@@ -134,7 +134,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
                         } 
                         
                         $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
-                        Mage::helper('payson')->__('Either an bank, card or SMS payment was choosen as payment method');
+                        Mage::helper('payson')->__('Either an bank or card payment was choosen as payment method');
                         $order['payson_invoice_fee'] = 0;
                         $order['base_payson_invoice_fee'] = 0;
 
