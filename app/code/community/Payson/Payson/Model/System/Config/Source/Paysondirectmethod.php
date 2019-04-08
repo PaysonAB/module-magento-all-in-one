@@ -20,18 +20,18 @@ class Payson_Payson_Model_System_Config_Source_Paysondirectmethod {
   
 
         $paysonInvoice = array(
-            array('value' => 4, 'label' => Mage::helper('adminhtml')->__('')),
-            array('value' => 5, 'label' => Mage::helper('adminhtml')->__('INVOICE')),
-            array('value' => 6, 'label' => Mage::helper('adminhtml')->__('INVOICE / BANK')),
-            array('value' => 7, 'label' => Mage::helper('adminhtml')->__('INVOICE / CREDITCARD')),
-            array('value' => 8, 'label' => Mage::helper('adminhtml')->__('INVOICE / CREDITCARD / BANK'))
+            array('value' => 3, 'label' => Mage::helper('adminhtml')->__('')),
+            array('value' => 4, 'label' => Mage::helper('adminhtml')->__('INVOICE')),
+            array('value' => 5, 'label' => Mage::helper('adminhtml')->__('INVOICE / BANK')),
+            array('value' => 6, 'label' => Mage::helper('adminhtml')->__('INVOICE / CREDITCARD')),
+            array('value' => 7, 'label' => Mage::helper('adminhtml')->__('INVOICE / CREDITCARD / BANK'))
             
         );
         $paysonDirect = array(
             array('value' => -1, 'label' => Mage::helper('adminhtml')->__('')),
-            array('value' => 1, 'label' => Mage::helper('adminhtml')->__('BANK')),
-            array('value' => 2, 'label' => Mage::helper('adminhtml')->__('CREDITCARD')),
-            array('value' => 3, 'label' => Mage::helper('adminhtml')->__('CREDITCARD / BANK'))
+            array('value' => 0, 'label' => Mage::helper('adminhtml')->__('BANK')),
+            array('value' => 1, 'label' => Mage::helper('adminhtml')->__('CREDITCARD')),
+            array('value' => 2, 'label' => Mage::helper('adminhtml')->__('CREDITCARD / BANK'))
             
         );
         if ($this->_config->CanInvoicePayment()) {
