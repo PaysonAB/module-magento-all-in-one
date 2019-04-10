@@ -1,6 +1,7 @@
 <?php
 
-class Payson_Payson_Model_Config {
+class Payson_Payson_Model_Config 
+{
     /*
      * Constants
      */
@@ -43,7 +44,8 @@ class Payson_Payson_Model_Config {
      * @return	void
      */
 
-    public function __construct() {
+    public function __construct() 
+    {
         $this->SetDefaultStoreId(Mage::app()->getStore()->getId());
     }
 
@@ -53,7 +55,8 @@ class Payson_Payson_Model_Config {
      * @param	int		$store
      * @return	object			$this
      */
-    public function SetDefaultStoreId($store) {
+    public function SetDefaultStoreId($store) 
+    {
 
         $this->default_store_id = $store;
 
@@ -65,7 +68,8 @@ class Payson_Payson_Model_Config {
      * 
      * @return	int
      */
-    public function GetDefaultStoreId() {
+    public function GetDefaultStoreId() 
+    {
 
         return $this->default_store_id;
     }
@@ -76,7 +80,8 @@ class Payson_Payson_Model_Config {
      * @param	string	$currency
      * @return	bool
      */
-    public function IsCurrencySupported($currency) {
+    public function IsCurrencySupported($currency)
+    {
         return in_array(strtoupper($currency), $this->supported_currencies);
     }
 
@@ -88,7 +93,8 @@ class Payson_Payson_Model_Config {
      * @param	mixed		$default	[optional]
      * @param	string		$prefix		[optional]
      */
-    public function GetConfig($name, $store = null, $default = null, $prefix = 'payment/payson_standard/') {
+    public function GetConfig($name, $store = null, $default = null, $prefix = 'payment/payson_standard/') 
+    {
         if (!isset($store)) {
             $store = $this->GetDefaultStoreId();
         }
@@ -102,7 +108,8 @@ class Payson_Payson_Model_Config {
     /**
      * @see GetConfig
      */
-    public function Get($name, $store = null, $default = null, $prefix = 'payment/payson_standard/') {
+    public function Get($name, $store = null, $default = null, $prefix = 'payment/payson_standard/') 
+    {
         return $this->GetConfig($name, $store, $default, $prefix);
     }
 
@@ -112,7 +119,8 @@ class Payson_Payson_Model_Config {
      * @param	object	$order
      * @return	float
      */
-    public function GetInvoiceFee($order) {
+    public function GetInvoiceFee($order) 
+    {
         $currency = $order->getBaseCurrencyCode();
         $currency = strtolower($currency);
 
@@ -134,7 +142,8 @@ class Payson_Payson_Model_Config {
      * @param	object	$order
      * @return	float
      */
-    public function GetInvoiceFeeInclTax($order) {
+    public function GetInvoiceFeeInclTax($order) 
+    {
         $fee = $this->GetInvoiceFee($order);
         $fee *= (1 + $this->GetInvoiceFeeTaxMod($order));
         $fee = round($fee, 3);
@@ -148,7 +157,8 @@ class Payson_Payson_Model_Config {
      * @param	object	$order
      * @return	float
      */
-    public function GetInvoiceFeeTaxMod($order) {
+    public function GetInvoiceFeeTaxMod($order) 
+    {
         $store = Mage::app()->getStore($order->getStoreId());
 
         $tax_calc = Mage::getSingleton('tax/calculation');
@@ -173,7 +183,8 @@ class Payson_Payson_Model_Config {
      * @param	int|null	$store	[optional]
      * @return	bool
      */
-    public function CanPaymentGuarantee($store = null) {
+    public function CanPaymentGuarantee($store = null) 
+    {
         return (bool) $this->GetConfig(self::PAYMENT_GUARANTEE, $store, false);
     }
 
@@ -184,21 +195,25 @@ class Payson_Payson_Model_Config {
      * @return	bool
      */
 
-    public function CanInvoicePayment($store = null) {
+    public function CanInvoicePayment($store = null) 
+    {
         
         return $this->GetConfig('active_invoice', $store, false, 'payment/payson_invoice/');
-    }    
+    }  
+
     /**
      * Is standard payment enabled?
      * 
      * @param	int|null	$store	[optional]
      * @return	bool
      */ 
-    public function CanStandardPayment($store = null) {
+    public function CanStandardPayment($store = null) 
+    {
         return $this->GetConfig('active', $store, false, 'payment/payson_standard/');
     }
 
-    public function restoreCartOnCancel($store = null) {
+    public function restoreCartOnCancel($store = null) 
+    {
         if (!$store)
             $store = Mage::app()->getStore()->getId();
         $configValue = $this->GetConfig("restore_on_cancel", $store);
@@ -206,7 +221,8 @@ class Payson_Payson_Model_Config {
         return $configValue == 1;
     }
 
-    public function restoreCartOnError($store = null) {
+    public function restoreCartOnError($store = null) 
+    {
         if (!$store)
             $store = Mage::app()->getStore()->getId();
         $configValue = $this->GetConfig("restore_on_error", $store);

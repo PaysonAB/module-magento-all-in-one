@@ -5,7 +5,8 @@
  *
  */
 
-class Payson_Payson_Model_System_Config_Source_Paysondirectmethod {
+class Payson_Payson_Model_System_Config_Source_Paysondirectmethod 
+{
 
     /**
      * Options getter
@@ -14,7 +15,8 @@ class Payson_Payson_Model_System_Config_Source_Paysondirectmethod {
      * 
      */
 
-    public function toOptionArray() {
+    public function toOptionArray() 
+    {
 
         $this->_config = Mage::getModel('payson/config');
   

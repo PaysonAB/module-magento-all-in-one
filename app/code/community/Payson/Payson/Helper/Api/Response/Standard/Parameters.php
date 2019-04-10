@@ -1,6 +1,7 @@
 <?php
 
-class Payson_Payson_Helper_Api_Response_Standard_Parameters {
+class Payson_Payson_Helper_Api_Response_Standard_Parameters 
+{
     /*
      * Protected properties
      */
@@ -22,7 +23,8 @@ class Payson_Payson_Helper_Api_Response_Standard_Parameters {
      * @param	arary	$params
      * @return	void
      */
-    public function __construct(array $params) {
+    public function __construct(array $params) 
+    {
         foreach ($params as $key => $value) {
             if (is_array($value)) {
                 $this->params[$key] = new self($value);
@@ -32,15 +34,18 @@ class Payson_Payson_Helper_Api_Response_Standard_Parameters {
         }
     }
 
-    public function __get($name) {
+    public function __get($name) 
+    {
         return (isset($this->params[$name]) ? $this->params[$name] : null);
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value) 
+    {
         $this->params[$name] = $value;
     }
 
-    public function __isset($name) {
+    public function __isset($name) 
+    {
         return isset($this->params[$name]);
     }
 
@@ -49,7 +54,8 @@ class Payson_Payson_Helper_Api_Response_Standard_Parameters {
      * 
      * @return	array
      */
-    public function ToArray() {
+    public function ToArray() 
+    {
         foreach ($this->params as $key => $value) {
             if ($value instanceof
                     Payson_Payson_Helper_Api_Response_Standard_Parameters) {

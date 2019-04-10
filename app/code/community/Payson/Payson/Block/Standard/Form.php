@@ -1,8 +1,10 @@
 <?php
 
-class Payson_Payson_Block_Standard_Form extends Mage_Payment_Block_Form {
+class Payson_Payson_Block_Standard_Form extends Mage_Payment_Block_Form 
+{
 
-    protected function _construct() {
+    protected function _construct() 
+    {
         $this->setTemplate('Payson/Payson/standard_form.phtml');
         parent::_construct();
     }

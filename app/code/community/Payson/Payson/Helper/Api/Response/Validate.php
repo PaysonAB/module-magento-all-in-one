@@ -1,6 +1,7 @@
 <?php
 
-class Payson_Payson_Helper_Api_Response_Validate implements Payson_Payson_Helper_Api_Response_Interface {
+class Payson_Payson_Helper_Api_Response_Validate implements Payson_Payson_Helper_Api_Response_Interface 
+{
     /*
      * Constants
      */
@@ -21,7 +22,8 @@ class Payson_Payson_Helper_Api_Response_Validate implements Payson_Payson_Helper
     /**
      * @inheritDoc
      */
-    static public function FromHttpBody($data) {
+    static public function FromHttpBody($data) 
+    {
         return new self($data);
     }
 
@@ -31,14 +33,16 @@ class Payson_Payson_Helper_Api_Response_Validate implements Payson_Payson_Helper
      * @param	string	$data
      * @return	void
      */
-    public function __construct($data) {
+    public function __construct($data) 
+    {
         $this->data = $data;
     }
 
     /**
      * @inheritDoc
      */
-    public function IsValid() {
+    public function IsValid() 
+    {
         return ($this->data === self::VERIFIED);
     }
 

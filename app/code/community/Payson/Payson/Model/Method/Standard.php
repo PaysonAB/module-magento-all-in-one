@@ -1,6 +1,7 @@
 <?php
 
-class Payson_Payson_Model_Method_Standard extends Payson_Payson_Model_Method_Abstract {
+class Payson_Payson_Model_Method_Standard extends Payson_Payson_Model_Method_Abstract 
+{
     /*
      * Protected properties
      */
@@ -23,7 +24,8 @@ class Payson_Payson_Model_Method_Standard extends Payson_Payson_Model_Method_Abs
     /**
      * @inheritDoc
      */
-    public function getTitle() {
+    public function getTitle() 
+    {
         $this->_config = Mage::getModel('payson/config');
         $order = Mage::registry('current_order');
         if (!isset($order) && ($invoice = Mage::registry('current_invoice'))) {
@@ -58,12 +60,15 @@ class Payson_Payson_Model_Method_Standard extends Payson_Payson_Model_Method_Abs
     /**
      * @inheritDoc
      */
-    public function authorize(Varien_Object $payment, $amount) {
+    public function authorize(Varien_Object $payment, $amount) 
+    {
         $payment->setTransactionId('auth')->setIsTransactionClosed(0);
 
         return $this;
     }
-   public function canUseCheckout() {
+    
+   public function canUseCheckout() 
+   {
        $this->_config = Mage::getModel('payson/config');
 
         if ($this->_config->CanInvoicePayment()){

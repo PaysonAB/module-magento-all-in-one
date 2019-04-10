@@ -1,10 +1,12 @@
 <?php
 
-class Payson_Payson_Model_Quote_Address_Total_Invoice extends Mage_Sales_Model_Quote_Address_Total_Abstract {
+class Payson_Payson_Model_Quote_Address_Total_Invoice extends Mage_Sales_Model_Quote_Address_Total_Abstract 
+{
 
     protected $_code = 'payson_invoice';
 
-    public function collect(Mage_Sales_Model_Quote_Address $address) {
+    public function collect(Mage_Sales_Model_Quote_Address $address) 
+    {
         if ($address->getAddressType() !== 'shipping') {
             return $this;
         }

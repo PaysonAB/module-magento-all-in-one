@@ -2,9 +2,11 @@
 
 require_once 'Mage/Adminhtml/controllers/Sales/Order/ShipmentController.php';
 
-class Payson_Payson_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Sales_Order_ShipmentController {
+class Payson_Payson_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Sales_Order_ShipmentController 
+{
 
-    public function saveAction() {
+    public function saveAction() 
+    {
 
         $order = Mage::getModel('sales/order')->load($this->getRequest()->getParam('order_id'));
         

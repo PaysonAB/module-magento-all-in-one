@@ -2,7 +2,8 @@
 
 include 'FundingConstraint.php';
 
-class Payson_Payson_Helper_Api {
+class Payson_Payson_Helper_Api 
+{
     /*
      * Constants
      */
@@ -79,13 +80,15 @@ class Payson_Payson_Helper_Api {
      * Private methods
      */
 
-    public function __construct() {
+    public function __construct() 
+    {
         $this->_config = Mage::getModel('payson/config');
         $this->_helper = Mage::helper('payson');
         $this->_invoice = Mage::getModel('payson/method/invoice');
     }
 
-    private function getHttpClient($url) {
+    private function getHttpClient($url) 
+    {
 
         $client = new Varien_Http_Client();
        
@@ -103,45 +106,53 @@ class Payson_Payson_Helper_Api {
         return $client->resetParameters();
     }
 
-    private function setResponse(
-    Payson_Payson_Helper_Api_Response_Interface $response) {
+    private function setResponse(Payson_Payson_Helper_Api_Response_Interface $response) 
+    {
         $this->response = $response;
 
         return $this;
     }
 
     //Private functions for Swedish discount and vat calculations
-    private function setAverageVat($vat) {
+    private function setAverageVat($vat) 
+    {
         $this->discountVat = $vat;
     }
 
-    private function getAverageVat() {
+    private function getAverageVat() 
+    {
         return $this->discountVat;
     }
 
-    private function setDiscountType($type) {
+    private function setDiscountType($type) 
+    {
         $this->discountType = $type;
     }
 
-    private function getDiscountType() {
+    private function getDiscountType() 
+    {
         return $this->discountType;
     }
 
-    private function setNumberOfItems($items) {
+    private function setNumberOfItems($items) 
+    {
         $this->numberofItems = $items;
     }
 
-    private function getNumberOfItems() {
+    private function getNumberOfItems() 
+    {
         return $this->numberofItems;
     }
 
-    private function getStoreCountry() {
+    private function getStoreCountry()
+    {
         $countryCode = Mage::getStoreConfig('general/country/default');
         $country = Mage::getModel('directory/country')->loadByCode($countryCode);
         return $country->country_id;
     }
 
-    private function setSwedishDiscountItem($item, &$total, $orderitems, $order) {
+    private function setSwedishDiscountItem($item, &$total, $orderitems, $order) 
+    {
 
         /*
          * Discount types $item->getAppliedRuleIds():
@@ -172,7 +183,8 @@ class Payson_Payson_Helper_Api {
         $this->order_discount_item += $discountAmount;
     }
 
-    private function setInternationalDiscountItem($item, &$total) {
+    private function setInternationalDiscountItem($item, &$total) 
+    {
         $total -= $item->getDiscountAmount();
         $this->order_discount_item += $item->getDiscountAmount();
     }
@@ -184,14 +196,16 @@ class Payson_Payson_Helper_Api {
      * @param	int		$total
      * @return	array
      */
-   private function getProductOptions($id) {
+   private function getProductOptions($id) 
+   {
         $product = new Mage_Catalog_Model_Product();		
 	$product->load($id);        
         $product->getTypeInstance(true)->setStoreFilter(Mage::app()->getStore(), $product);
         return $product;
         
     }
-    private function prepareOrderItemData($item, &$total, $order) {
+    private function prepareOrderItemData($item, &$total, $order) 
+    {
         /* @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('catalog/product')
                 ->load($item->getProductId());
@@ -251,7 +265,8 @@ class Payson_Payson_Helper_Api {
         $this->prepareProductData($name, $sku, $qty, $base_price, $tax_mod);
     }
 
-    private function generateProductDataForPayson(array $args) {
+    private function generateProductDataForPayson(array $args) 
+    {
         $productData = array();
         for ($i = 0; $i < sizeof($this->_products); $i++) {
             $productData += array
@@ -273,7 +288,8 @@ class Payson_Payson_Helper_Api {
         return $args;
     }
 
-    private function prepareProductData($description, $sku, $qty, $base_price, $tax_mod) {
+    private function prepareProductData($description, $sku, $qty, $base_price, $tax_mod) 
+    {
         $description = strlen($description) <= 128 ? $description : substr($description, 128);
         $sku = strlen($sku) <= 128 ? $sku : substr($sku, 128);
         $this->_products[] = array("Description" => $description, "Sku" => $sku,
@@ -289,7 +305,8 @@ class Payson_Payson_Helper_Api {
      * @param	int		$i
      * @param	int		$total
      */
-    private function prepareOrderShippingData($order, $customer, $store, &$total) {
+    private function prepareOrderShippingData($order, $customer, $store, &$total) 
+    {
         $tax_calc = Mage::getSingleton('tax/calculation');
 
         $tax_rate_req = $tax_calc->getRateRequest(
@@ -321,7 +338,8 @@ class Payson_Payson_Helper_Api {
      *
      * @return	object
      */
-    public function GetResponse() {
+    public function GetResponse() 
+    {
         return $this->response;
     }
 
@@ -330,7 +348,8 @@ class Payson_Payson_Helper_Api {
      *
      * @return	string
      */
-    public function GetPayForwardUrl() {
+    public function GetPayForwardUrl() 
+    {
         $url = vsprintf(self::PAY_FORWARD_URL . '?token=' . $this->GetResponse()->TOKEN, $this->getFormatIfTest(null, true));
         return $url;
     }
@@ -341,7 +360,8 @@ class Payson_Payson_Helper_Api {
      * @param	object	$order
      * @return	object					
      */
-    public function showReceiptPage() {
+    public function showReceiptPage() 
+    {
         $Config = (int) $this->_config->get('show_receipt_page');
         $reciept2 = 'false';
         if ($Config === 1) {
@@ -350,7 +370,8 @@ class Payson_Payson_Helper_Api {
         return $reciept2;
     }
 
-    public function vatDiscount() {
+    public function vatDiscount() 
+    {
         $inputValue = (int) $this->_config->Get('vat_discount');
         $enableVatDiscount = 'false';
         if ($inputValue === 1) {
@@ -359,7 +380,8 @@ class Payson_Payson_Helper_Api {
         return $enableVatDiscount;
     }
 
-    public function Pay(Mage_Sales_Model_Order $order) {
+    public function Pay(Mage_Sales_Model_Order $order) 
+    {
 
         $payment_method = $order->getPayment()->getMethod();
 
@@ -593,11 +615,13 @@ class Payson_Payson_Helper_Api {
         return $this;
     }
 
-    public function PaymentMethod() {
+    public function PaymentMethod() 
+    {
         
     }
 
-    private function getConstrains($paymentMethod) {
+    private function getConstrains($paymentMethod) 
+    {
 
         $constraints = array();
         $opts = array(
@@ -629,7 +653,8 @@ class Payson_Payson_Helper_Api {
      * @param	string	$content_type
      * @return	object					$this
      */
-    public function confirmationEmail($entityId) {
+    public function confirmationEmail($entityId) 
+    {
         $resource = Mage::getSingleton('core/resource');
         $db = $resource->getConnection('core_write');
         $order_table = $resource->getTableName('sales_flat_order');
@@ -640,7 +665,8 @@ class Payson_Payson_Helper_Api {
         return $status;
     }
 
-    public function Validate($http_body, $content_type) {
+    public function Validate($http_body, $content_type) 
+    {
 
         // Parse request done by Payson to our IPN controller
         $ipn_response = Payson_Payson_Helper_Api_Response_Standard
@@ -1125,7 +1151,8 @@ LIMIT
         return $this;
     }
 
-    public function PaymentDetails($order_id) {
+    public function PaymentDetails($order_id) 
+    {
 
         // Get the database connection
         $resource = Mage::getSingleton('core/resource');
@@ -1209,7 +1236,8 @@ LIMIT
      * @params	string	$action
      * @return	object				$this
      */
-    public function PaymentUpdate($order_id, $action) {
+    public function PaymentUpdate($order_id, $action) 
+    {
 
         // Get the database connection
         $resource = Mage::getSingleton('core/resource');
@@ -1274,7 +1302,8 @@ LIMIT
         return $this;
     }
 
-    private function getFormatIfTest($storeID = null, $isForwardURL = FALSE) {
+    private function getFormatIfTest($storeID = null, $isForwardURL = FALSE) 
+    {
 
         $stack = array();
         /* @var $isTest bool */
@@ -1294,7 +1323,8 @@ LIMIT
         return $stack;
     }
 
-    public function getIpnStatus($order_id) {
+    public function getIpnStatus($order_id) 
+    {
         $resource = Mage::getSingleton('core/resource');
         $db = $resource->getConnection('core_write');
         $order_table = $resource->getTableName('payson_order');
@@ -1302,7 +1332,8 @@ LIMIT
         return $db->fetchRow($query);
     }
 
-    public function paysonApiError($error) {
+    public function paysonApiError($error) 
+    {
         $error_code = '<html>
                             <head>
                             <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
@@ -1312,8 +1343,8 @@ LIMIT
 				</script>
                             </head>
                            </html>';
-        echo $error_code;
-        exit;
+        //echo $error_code;
+        //exit;
     }
 
 }
