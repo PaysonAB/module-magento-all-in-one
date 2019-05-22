@@ -1,6 +1,6 @@
 <?php
 
-class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Api_Response_Standard_Parameters implements Payson_Payson_Helper_Api_Response_Interface 
+class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Api_Response_Standard_Parameters implements Payson_Payson_Helper_Api_Response_Interface
 {
     /*
      * Constants
@@ -19,7 +19,7 @@ class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Ap
      * @param	string	$response
      * @return	object
      */
-    static public function FromHttpBody($body) 
+    static public function FromHttpBody($body)
     {
         $params = array();
         parse_str($body, $params);
@@ -74,7 +74,7 @@ class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Ap
      * @param	array	$params
      * @return	void
      */
-    public function __construct(array $params) 
+    public function __construct(array $params)
     {
         if (empty($params)) {
             Mage::throwException('Invalid response');
@@ -86,7 +86,7 @@ class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Ap
     /**
      * @inheritDoc
      */
-    public function IsValid() 
+    public function IsValid()
     {
         return (isset($this->responseEnvelope->ack) &&
                 ($this->responseEnvelope->ack === self::ACK_SUCCESS));
@@ -97,7 +97,7 @@ class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Ap
      * 
      * @return	string
      */
-    public function GetError() 
+    public function GetError()
     {
         $ret = '';
 
@@ -120,7 +120,7 @@ class Payson_Payson_Helper_Api_Response_Standard extends Payson_Payson_Helper_Ap
      * 
      * @return	int|null
      */
-    public function GetErrorId() 
+    public function GetErrorId()
     {
         if (isset($this->errorList->error)) {
             foreach ($this->errorList->error->ToArray() as $error) {

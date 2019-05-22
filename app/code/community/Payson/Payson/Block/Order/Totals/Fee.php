@@ -1,9 +1,9 @@
 <?php
 
-class Payson_Payson_Block_Order_Totals_Fee extends Mage_Core_Block_Abstract 
+class Payson_Payson_Block_Order_Totals_Fee extends Mage_Core_Block_Abstract
 {
 
-    public function initTotals() 
+    public function initTotals()
     {
         $parent = $this->getParentBlock();
         $this->_order = $parent->getOrder();

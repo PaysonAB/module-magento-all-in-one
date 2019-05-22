@@ -1,6 +1,6 @@
 <?php
 
-class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract 
+class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract
 {
     /*
      * Protected properties
@@ -44,7 +44,7 @@ class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * @inheritDoc
      */
-    public function initialize($payment_action, $state_object) 
+    public function initialize($payment_action, $state_object)
     {
         $state_object->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
         $state_object->setStatus(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT);
@@ -55,7 +55,7 @@ class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * @inheritDoc
      */
-    public function capture(Varien_Object $payment, $amount) 
+    public function capture(Varien_Object $payment, $amount)
     {
         $order = $payment->getOrder();
         $order_id = $order->getData('increment_id');
@@ -80,7 +80,7 @@ class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract
      *
      * @return	string
      */
-    public function getOrderPlaceRedirectUrl() 
+    public function getOrderPlaceRedirectUrl()
     {
         return Mage::getUrl('payson/checkout/redirect', array('_secure' => true));
     }
@@ -91,7 +91,7 @@ class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract
      * @param	string	$currency
      * @return	bool
      */
-    public function canUseForCurrency($currency) 
+    public function canUseForCurrency($currency)
     {
         return Mage::getModel('payson/config')->IsCurrencySupported($currency);
     }
@@ -99,7 +99,7 @@ class Payson_Payson_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * @inheritDoc
      */
-    public function getTitle() 
+    public function getTitle()
     {
         $order = Mage::registry('current_order');
         $invoice_fee = $order->getPaysonInvoiceFee();

@@ -1,6 +1,6 @@
 <?php
 
-class Payson_Payson_Model_Method_Invoice extends Payson_Payson_Model_Method_Abstract 
+class Payson_Payson_Model_Method_Invoice extends Payson_Payson_Model_Method_Abstract
 {
     /*
      * Protected properties
@@ -27,7 +27,7 @@ class Payson_Payson_Model_Method_Invoice extends Payson_Payson_Model_Method_Abst
     /**
      * @inheritDoc
      */
-    public function capture(Varien_Object $payment, $amount) 
+    public function capture(Varien_Object $payment, $amount)
     {       
         $order = $payment->getOrder();
         $method = $order->getPayment()->getMethod();
@@ -55,7 +55,7 @@ class Payson_Payson_Model_Method_Invoice extends Payson_Payson_Model_Method_Abst
         return $this;
     }
 
-    public function authorize(Varien_Object $payment, $amount) 
+    public function authorize(Varien_Object $payment, $amount)
     {
         $order = $payment->getOrder();
         $method = $order->getPayment()->getMethod();

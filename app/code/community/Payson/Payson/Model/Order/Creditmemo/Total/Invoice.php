@@ -1,12 +1,12 @@
 <?php
 
 class Payson_Payson_Model_Order_Creditmemo_Total_Invoice extends
-Mage_Sales_Model_Order_Creditmemo_Total_Abstract 
+Mage_Sales_Model_Order_Creditmemo_Total_Abstract
 {
 
     protected $_code = 'payson_invoice';
     
-    public function collect(Mage_Sales_Model_Order_Creditmemo $invoice) 
+    public function collect(Mage_Sales_Model_Order_Creditmemo $invoice)
     {
         $order = $invoice->getOrder();
         $this->_config = Mage::getModel('payson/config');

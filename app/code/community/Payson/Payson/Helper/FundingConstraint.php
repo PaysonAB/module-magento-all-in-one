@@ -1,6 +1,6 @@
 <?php
 
-class FundingConstraint 
+class FundingConstraint
 {
 
     const NONE = 0;
@@ -8,7 +8,7 @@ class FundingConstraint
     const BANK = 2;
     const INVOICE = 3;
 
-    public static function addConstraintsToOutput($fundingConstraints, &$output) 
+    public static function addConstraintsToOutput($fundingConstraints, &$output)
     {
         $formatString = "fundingList.fundingConstraint(%d).constraint";
 
@@ -21,7 +21,7 @@ class FundingConstraint
         }
     }
 
-    public static function ConstantToString($value) 
+    public static function ConstantToString($value)
     {
         switch ($value) {
             case self::BANK:

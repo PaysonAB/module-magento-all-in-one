@@ -1,9 +1,9 @@
 <?php
 
-class Payson_Payson_IpnController extends Mage_Core_Controller_Front_Action 
+class Payson_Payson_IpnController extends Mage_Core_Controller_Front_Action
 {
 
-    public function notifyAction() 
+    public function notifyAction()
     {
         $request = $this->getRequest();
         $response = $this->getResponse();

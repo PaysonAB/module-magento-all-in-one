@@ -1,6 +1,6 @@
 <?php
 
-abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Method_Abstract 
+abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Method_Abstract
 {
 
     /**
@@ -31,12 +31,12 @@ abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Me
      * Protected methods
      */
 
-    protected function GetCheckout() 
+    protected function GetCheckout()
     {
         return Mage::getSingleton('checkout/session');
     }
 
-    protected function GetQuote() 
+    protected function GetQuote()
     {
         return $this->GetCheckout()->getQuote();
     }
@@ -50,7 +50,7 @@ abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Me
      *
      * @return	string
      */
-    public function getOrderPlaceRedirectUrl() 
+    public function getOrderPlaceRedirectUrl()
     {
         return Mage::getUrl('payson/checkout/redirect', array('_secure' => true));
     }
@@ -73,7 +73,7 @@ abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Me
      * @param	string	$currency
      * @return	bool
      */
-    public function canUseForCurrency($currency) 
+    public function canUseForCurrency($currency)
     {
         return Mage::getModel('payson/config')->IsCurrencySupported(Mage::app()->getStore()->getCurrentCurrencyCode());
     }
@@ -81,7 +81,7 @@ abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Me
     /**
      * @inheritDoc
      */
-    public function refund(Varien_Object $payment, $amount) 
+    public function refund(Varien_Object $payment, $amount)
     {
 
         /* @var $order Mage_Sales_Model_Order */
@@ -114,7 +114,7 @@ abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Me
     /**
      * @inheritDoc
      */
-    public function void(Varien_Object $payment) 
+    public function void(Varien_Object $payment)
     {
         $payment->setTransactionId('auth')
                 ->setIsTransactionClosed(0);
@@ -124,7 +124,7 @@ abstract class Payson_Payson_Model_Method_Abstract extends Mage_Payment_Model_Me
     /**
      * @inheritDoc
      */
-    public function cancel(Varien_Object $payment) 
+    public function cancel(Varien_Object $payment)
     {
         $order = $payment->getOrder();
         $order_id = $order->getData('increment_id');

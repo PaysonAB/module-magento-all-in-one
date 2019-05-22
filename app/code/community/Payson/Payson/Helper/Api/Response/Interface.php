@@ -1,6 +1,6 @@
 <?php
 
-interface Payson_Payson_Helper_Api_Response_Interface 
+interface Payson_Payson_Helper_Api_Response_Interface
 {
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action 
+class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
 {
     /*
      * Private properties
@@ -17,7 +17,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
      * Private methods
      */
 
-    public function _construct() 
+    public function _construct()
     {
         $this->_config = Mage::getModel('payson/config');
         $this->_helper = Mage::helper('payson');
@@ -27,7 +27,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
      * Private methods
      */
 
-    private function getSession() 
+    private function getSession()
     {
         if (!isset($this->_session)) {
             $this->_session = Mage::getSingleton('checkout/session');
@@ -40,7 +40,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
      * 
      * @return Mage_Sales_Model_Order
      */
-    private function getOrder() 
+    private function getOrder()
     {
         if (!isset($this->_order)) {
             $increment_id = $this->getSession()->getData('last_real_order_id');
@@ -58,7 +58,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
         return $this->_order;
     }
 
-    private function cancelOrder($message = '') 
+    private function cancelOrder($message = '')
     {
 
         $order = $this->getOrder();
@@ -75,7 +75,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
         return $this;
     }
 
-    public function redirectAction() 
+    public function redirectAction()
     {
 
         $order = $this->getOrder();
@@ -108,7 +108,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
         }
     }
 
-    public function returnAction() 
+    public function returnAction()
     {
         $api = Mage::helper('payson/api');
         $order = $this->getOrder();
@@ -222,7 +222,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
         }
     }
 
-    public function cancelAction() 
+    public function cancelAction()
     {
 
         $cancelMessage = Mage::helper('payson')->__('Order was canceled at Payson');
@@ -236,7 +236,7 @@ class Payson_Payson_CheckoutController extends Mage_Core_Controller_Front_Action
         $this->_redirect('checkout');
     }
 
-    private function restoreCart() 
+    private function restoreCart()
     {
 
         $quoteId = $this->getOrder()->getQuoteId();
