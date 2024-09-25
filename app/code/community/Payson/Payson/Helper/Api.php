@@ -18,7 +18,7 @@ class Payson_Payson_Helper_Api
     const PAY_FORWARD_URL = '%s://%s%s.payson.%s/paySecure/';
     const APPLICATION_ID = 'Magento';
     const MODULE_NAME = 'Payson_AllinOne';
-    const MODULE_VERSION = '1.8.3.5';
+    const MODULE_VERSION = '1.8.3.6';
     const DEBUG_MODE_MAIL = 'testagent-checkout2@payson.se';
     const DEBUG_MODE_AGENT_ID = '4';
     const DEBUG_MODE_MD5 = '2acab30d-fe50-426f-90d7-8c60a7eb31d4';
